@@ -36,4 +36,4 @@ jobs:
           import platform
           print(platform.processor())
           print("Hello, World!")
-          python --version
+
