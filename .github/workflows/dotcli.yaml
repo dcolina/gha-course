@@ -16,5 +16,16 @@ jobs:
       - name: Install dotCLI
         run: npm install -g @dotcms/dotcli
 
-      - name: Run dotCLI
+      - name: Check dotCLI version
         run: dotcli --version
+
+      - name: Configure dotCLI
+        run: ../scripts/dotcli-config.sh
+        
+      # - name: Run dotCLI commands
+      #   run: |
+      #     echo "::group::dotcli commands"
+      #     dotcli config
+      #     expect "Enter the key/name"
+      #     # dotcli login --username ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
+      #     echo "::endgroup::"
