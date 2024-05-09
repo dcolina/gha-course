@@ -21,7 +21,7 @@ jobs:
         run: sudo apt-get install -y expect
 
       - name: Install dotCLI
-        run: npm install -g @dotcms/dotcli
+        run: npm install -g @dotcms/dotcli@rc
 
       - name: Check dotCLI version
         run: dotcli --version
