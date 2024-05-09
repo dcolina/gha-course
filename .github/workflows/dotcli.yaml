@@ -28,7 +28,7 @@ jobs:
 
       - name: dotCLI commands
         run: |
-          dotcli login --username ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
+          dotcli login --user ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
           dotcli pull        
 
       # - name: Run dotCLI commands
