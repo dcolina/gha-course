@@ -1,6 +1,6 @@
 #!/usr/bin/expect -f
 
-spawn ./test.sh
+spawn ./.github/scripts/config.sh
 
 expect "Enter the key/name that will serve to identify the dotCMS instance (must be unique) "
 send "demo\n"

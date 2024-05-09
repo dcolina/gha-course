@@ -22,10 +22,10 @@ jobs:
       - name: Check dotCLI version
         run: dotcli --version
 
-      # - name: Configure dotCLI
-      #   run: |
-      #     pwd
-      #     sh ./.github/scripts/dotcli-config.sh
+      - name: Configure dotCLI
+        run: |
+          pwd
+          ./.github/scripts/config-automation.exp
 
       # - name: Run dotCLI commands
       #   run: |
