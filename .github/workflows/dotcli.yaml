@@ -14,7 +14,7 @@ jobs:
           node-version: 16.x
 
       - name: Setup Expect
-        run: apt-get install expect -y
+        run: sudo apt-get install -y expect
 
       - name: Install dotCLI
         run: npm install -g @dotcms/dotcli
