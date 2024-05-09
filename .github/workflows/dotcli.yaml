@@ -20,7 +20,9 @@ jobs:
         run: dotcli --version
 
       - name: Configure dotCLI
-        run: sh .github/scripts/dotcli-config.sh
+        run: |
+          pwd
+          sh .github/scripts/dotcli-config.sh
 
       # - name: Run dotCLI commands
       #   run: |
