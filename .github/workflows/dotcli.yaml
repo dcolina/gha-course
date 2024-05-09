@@ -31,12 +31,14 @@ jobs:
           ./.github/scripts/config-automation.exp
 
       - name: dotCLI commands
+        id: dotcli-commands
+        continue-on-error: true          
         run: |
           dotcli login --user ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
           dotcli pull   
 
       - name: dotCLI pull demo
-        if: failure()
+        if: steps.dotcli-commands.conclusion == 'failure'
         run: |
           dotcli pull --token=${{ secrets.DOTCMS_TOKEN }} --dotcms-url=https://demo.dotcms.com     
 
