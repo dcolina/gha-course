@@ -24,8 +24,12 @@ jobs:
 
       - name: Configure dotCLI
         run: |
-          pwd
           ./.github/scripts/config-automation.exp
+
+      - name: dotCLI commands
+        run: |
+          dotcli login --username ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
+          dotcli pull        
 
       # - name: Run dotCLI commands
       #   run: |
