@@ -31,7 +31,6 @@ jobs:
           ./.github/scripts/config-automation.exp
 
       - name: dotCLI commands
-        continue-on-error: true
         run: |
           dotcli login --user ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
           dotcli pull   
