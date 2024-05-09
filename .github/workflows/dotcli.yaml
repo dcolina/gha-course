@@ -6,6 +6,10 @@ jobs:
   dotcli-test:
     runs-on: ubuntu-22.04
     steps:
+      - name: Context
+        run: |
+          uname -a
+
       - name: Checkout dotCLI
         uses: actions/checkout@v4
 
@@ -26,10 +30,14 @@ jobs:
         run: |
           ./.github/scripts/config-automation.exp
 
-      - name: dotCLI commands
+      - name: dotCLI pull demo
         run: |
-          dotcli login --user ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
-          dotcli pull        
+          dotcli pull --token=${{ secrets.DOTCMS_TOKEN }} --dotcms-url=https://demo.dotcms.com
+
+      # - name: dotCLI commands
+      #   run: |
+      #     dotcli login --user ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }}
+      #     dotcli pull        
 
       # - name: Run dotCLI commands
       #   run: |
