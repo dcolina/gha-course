@@ -35,9 +35,13 @@ jobs:
         continue-on-error: true          
         run: |
           dotcli login --user ${{ secrets.DOTCMS_USERNAME }} --password ${{ secrets.DOTCMS_PASSWORD }} -e
+          dotcli pull
+          echo "<div><h1>testing dotcli commands</h1></div>" > files/live/en-us/demo.dotcms.com/application/themes/travel/containers/dotcli-commands.vtl
+          dotcli push --dry-run
+          dotcli push
 
       - name: dotCLI pull demo
-        if: always()
+        if: failure() && steps.dotcli-commands.conclusion == 'failure'
         run: |
           dotcli pull --token=${{ secrets.DOTCMS_TOKEN }} --dotcms-url=https://demo.dotcms.com     
 
