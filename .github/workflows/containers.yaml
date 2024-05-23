@@ -12,4 +12,17 @@ jobs:
         run: |
           node -v
           cat /etc/*-release
-          echo "FOO=$FOO"
+
+      - name: Log environment variables
+        run: echo "FOO=$FOO"
+
+      - name: Container in a step
+        uses: docker://node:18.16-alpine:3.17
+        with:
+          entrypoint: /usr/local/bin/node
+          args: -p 2+3
+
+      - name: Log node version
+        uses: docker://node:18.16-alpine:3.17
+        with:
+          args: -v
