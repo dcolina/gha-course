@@ -25,8 +25,17 @@ jobs:
           entrypoint: /usr/local/bin/node
           args: -p 2+3
 
-      - name: Log node version
+      - name: Showing the file content
         uses: docker://node:18.20-alpine3.20
         with:
           entrypoint: cat
           args: text.txt
+
+      - name: Checkout the repository
+        uses: actions/checkout@v4    
+
+      - name: Running a script
+        uses: docker://node:18.20-alpine3.20
+        with:
+          entrypoint: ./example.sh
+          args: "Danico 21"          
