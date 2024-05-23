@@ -31,8 +31,7 @@ jobs:
           entrypoint: cat
           args: text.txt
 
-      - name: Checkout the repository
-        uses: actions/checkout@v4    
+      - uses: actions/checkout@v4    
 
       - name: Running a script
         uses: docker://node:18.20-alpine3.20
