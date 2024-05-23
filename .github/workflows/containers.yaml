@@ -31,10 +31,13 @@ jobs:
           entrypoint: cat
           args: text.txt
 
-      - uses: actions/checkout@v4    
+      - uses: actions/checkout@v4 
+      
+      - name: ls -la
+        run: ls -la
 
-      - name: Running a script
-        uses: docker://node:18.20-alpine3.20
-        with:
-          entrypoint: ./example.sh
-          args: "Danico 21"          
+      # - name: Running a script
+      #   uses: docker://node:18.20-alpine3.20
+      #   with:
+      #     entrypoint: ./example.sh
+      #     args: "Danico 21"          
