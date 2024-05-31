@@ -1,0 +1,21 @@
+name: Docker
+on: [workflow_dispatch]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send a slack message
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.DOTCMS_SLACK_WEBHOOK }}
+          SLACK_CHANNEL: '#scout_equipo'
+          SLACK_TITLE: "Important news!"
+          SLACK_MESSAGE: "⚽️ This is a custom message from GitHub Actions"
+          SLACK_COLOR: "#723fc4"
+          SLACK_ICON_EMOJI: ':rocket:'
+          SLACK_USERNAME: dotBot
+          SLACK_MSG_AUTHOR: " "
+          MSG_MINIMAL: true
+          SLACK_FOOTER: ""          
