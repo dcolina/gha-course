@@ -1,0 +1,47 @@
+name: Create PR
+on:
+  push:
+    branches:
+      - master
+jobs:
+  create-pr:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'GitHub context'
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - name: 'Setup git config'
+        run: |
+          git config user.name "dotCMS-Machine-User"
+          git config user.email "dotCMS-Machine-User@dotcms.com"
+      - name: 'Update config'
+        id: update-config
+        run: |
+          # Create a release branch for versioning updates
+          AUXILIARY_BRANCH=version-update-${{ github.run_id }}
+          git checkout -b $AUXILIARY_BRANCH          
+          
+          echo "Hello $(date)" > hello.conf
+          
+          # Commit version changes
+          git add .
+          git status
+          git commit --allow-empty -a -m "⚽️ Updating configuration..."
+          git push origin $AUXILIARY_BRANCH
+          echo "auxiliary-branch=$AUXILIARY_BRANCH" >> "$GITHUB_OUTPUT"          
+
+      - name: 'Create Pull Request'
+        uses: peter-evans/create-pull-request@v5
+        env:
+          AUXILIARY_BRANCH: ${{ steps.update-config.outputs.auxiliary-branch }}
+        with:
+          branch: $AUXILIARY_BRANCH
+          base: master
+          title: 'Auto-generated PR: Update configuration files'
+          body: 'This PR was created automatically to update the configuration files.'
+          draft: false  
