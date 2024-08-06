@@ -40,7 +40,7 @@ jobs:
         env:
           AUXILIARY_BRANCH: ${{ steps.update-config.outputs.auxiliary-branch }}
         with:
-          branch: $AUXILIARY_BRANCH
+          branch: '${AUXILIARY_BRANCH}'
           base: main
           title: 'Auto-generated PR: Update configuration files'
           body: 'This PR was created automatically to update the configuration files.'
