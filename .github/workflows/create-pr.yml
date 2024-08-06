@@ -23,8 +23,8 @@ jobs:
         id: update-config
         run: |
           # Create a release branch for versioning updates
-          AUXILIARY_BRANCH=version-update-${{ github.run_id }}
-          git checkout -b $AUXILIARY_BRANCH          
+          # AUXILIARY_BRANCH=version-update-${{ github.run_id }}
+          # git checkout -b $AUXILIARY_BRANCH          
           
           echo "Hello $(date)" > hello.conf
           
@@ -32,8 +32,15 @@ jobs:
           git add .
           git status
           git commit --allow-empty -a -m "⚽️ Updating configuration..."
-          git push origin $AUXILIARY_BRANCH
-          echo "auxiliary-branch=$AUXILIARY_BRANCH" >> "$GITHUB_OUTPUT"          
+          # git push origin $AUXILIARY_BRANCH
+          # echo "auxiliary-branch=$AUXILIARY_BRANCH" >> "$GITHUB_OUTPUT"          
 
       - name: 'Create Pull Request'
         uses: peter-evans/create-pull-request@v6
+        with:
+          branch: version-update-${{ github.run_id }}
+          base: master
+          title: 'Auto-generated PR: Update configuration files'
+          body: 'This PR was created automatically to update the configuration files.'
+          draft: false 
+          
