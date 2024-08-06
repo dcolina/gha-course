@@ -38,6 +38,7 @@ jobs:
       - name: 'Create Pull Request'
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: version-update-${{ github.run_id }}
           base: main
           title: 'Auto-generated PR: Update configuration files'
