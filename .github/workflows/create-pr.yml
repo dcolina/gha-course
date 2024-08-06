@@ -2,7 +2,7 @@ name: Create PR
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   create-pr:
     name: Create Pull Request
@@ -41,7 +41,7 @@ jobs:
           AUXILIARY_BRANCH: ${{ steps.update-config.outputs.auxiliary-branch }}
         with:
           branch: $AUXILIARY_BRANCH
-          base: master
+          base: main
           title: 'Auto-generated PR: Update configuration files'
           body: 'This PR was created automatically to update the configuration files.'
           draft: false  
