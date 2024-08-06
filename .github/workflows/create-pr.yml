@@ -39,7 +39,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: version-update-${{ github.run_id }}
-          base: master
+          base: main
           title: 'Auto-generated PR: Update configuration files'
           body: 'This PR was created automatically to update the configuration files.'
           draft: false 
