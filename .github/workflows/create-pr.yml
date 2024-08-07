@@ -46,7 +46,7 @@ jobs:
           body: 'This PR was created automatically to update the configuration files.'
           draft: false
           labels: |
-            sdk libs
+            sdk-libs
             automated pr 
 
       # - name: 'Enable Pull Request Automerge'
