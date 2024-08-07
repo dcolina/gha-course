@@ -1,0 +1,36 @@
+name: 'Publish NPM Packages on PR Merge to Main with Specific Label'
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  publish-to-npm:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR Labels
+        id: get_pr_labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const { data: labels } = await github.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber
+            });
+            return {
+              labels: labels.map(label => label.name)
+            }
+
+      - name: Evaluate PR Labels
+        id: evaluate_pr_labels
+        run: |
+          LABELS=${{ steps.get_pr_labels.outputs.labels }}
+          echo "PR Labels: $LABELS"
+          if [[ "$LABELS" == *"sdk libs"* ]]; then
+            echo "Specific label found. Proceeding with publishing."
+            echo "publish=true" >> $GITHUB_ENV
+          else
+            echo "Specific label not found. Exiting."
+            echo "publish=false" >> $GITHUB_ENV            
