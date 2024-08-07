@@ -38,7 +38,7 @@ jobs:
         run: |
           LABELS=${{ steps.get_pr_labels.outputs.labels }}
           echo "PR Labels: $LABELS"
-          if [[ "$LABELS" == *"sdk libs"* ]]; then
+          if [[ "$LABELS" == *"sdk-libs"* ]]; then
             echo "Specific label found. Proceeding with publishing."
             echo "publish=true" >> $GITHUB_ENV
           else
