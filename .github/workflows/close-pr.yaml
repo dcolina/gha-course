@@ -19,21 +19,21 @@ jobs:
           echo "$GITHUB_CONTEXT" | jq ".event.pull_request"
           echo "::endgroup::"          
 
-      - name: Get PR Labels
-        id: get_pr_labels
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { owner, repo } = context.repo;
-            const pull_number = context.payload.pull_request.number;
+      # - name: Get PR Labels
+      #   id: get_pr_labels
+      #   uses: actions/github-script@v7
+      #   with:
+      #     script: |
+      #       const { owner, repo } = context.repo;
+      #       const pull_number = context.payload.pull_request.number;
   
-            const { data: pullRequest } = await github.pulls.get({
-              owner: owner,
-              repo: repo,
-              pull_number: pull_number,
-            });
+      #       const { data: pullRequest } = await github.pulls.get({
+      #         owner: owner,
+      #         repo: repo,
+      #         pull_number: pull_number,
+      #       });
   
-            console.log(pullRequest);
+      #       console.log(pullRequest);
 
       # - name: Evaluate PR Labels
       #   id: evaluate_pr_labels
