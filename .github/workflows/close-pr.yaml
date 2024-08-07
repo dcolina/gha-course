@@ -1,7 +1,6 @@
 name: 'PR closed'
 on:
   pull_request:
-    types: [closed]
 
 jobs:
   publish-to-npm:
