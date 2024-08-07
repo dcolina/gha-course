@@ -6,6 +6,9 @@ on:
     types:
       - closed
 
+env:
+  SDK_LABEL: 'sdk-libs'
+
 jobs:
   after-pr:
     runs-on: ubuntu-latest
@@ -17,12 +20,12 @@ jobs:
         run: |
           echo "::group::Get PR Labels"
           echo "PR Labels: $LABELS"
-          # Comprobar si alguna de las etiquetas es "sdk-libs"
-          if echo "$LABELS" | jq -e '.[] | select(.name == "sdk-libs")' > /dev/null; then
-            echo "La etiqueta 'sdk-libs' existe."
+
+          if echo "$LABELS" | jq -e '.[] | select(.name == "${{ env.SDK_LABEL }}")' > /dev/null; then
+            echo "Label '${{ env.SDK_LABEL }}' is present."
             PUBLISH=true
           else
-            echo "La etiqueta 'sdk-libs' no existe."            
+            echo "Label '${{ env.SDK_LABEL }}' is not present."            
             PUBLISH=false
           fi
           echo "publish-sdk-libs=$PUBLISH" >> $GITHUB_OUTPUT
