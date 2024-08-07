@@ -16,6 +16,7 @@ jobs:
         run: |
           echo "::group::Github Context"
           echo "$GITHUB_CONTEXT"
+          echo "$GITHUB_CONTEXT" | jq ".event.pull_request"
           echo "::endgroup::"          
 
       - name: Get PR Labels
