@@ -15,8 +15,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "::group::Github Context"
-          echo "$GITHUB_CONTEXT"
-          echo "$GITHUB_CONTEXT" | jq ".event.pull_request"
+          echo "$GITHUB_CONTEXT" | jq ".event.pull_request.labels"
           echo "::endgroup::"          
 
       # - name: Get PR Labels
