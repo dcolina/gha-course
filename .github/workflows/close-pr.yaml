@@ -10,38 +10,27 @@ jobs:
   after-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Log GitHub context'
+      - name: 'Get PR Labels'
+        id: get_pr_labels
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+          LABELS: ${{ toJson(github.event.pull_request.labels) }}
         run: |
-          echo "::group::Github Context"
-          echo "$GITHUB_CONTEXT" | jq ".event.pull_request.labels"
+          echo "::group::Get PR Labels"
+          echo "PR Labels: $LABELS"
+          # Comprobar si alguna de las etiquetas es "sdk-libs"
+          if echo "$LABELS" | jq -e '.[] | select(.name == "sdk-libs")' > /dev/null; then
+            echo "La etiqueta 'sdk-libs' existe."
+            PUBLISH=true
+          else
+            echo "La etiqueta 'sdk-libs' no existe."            
+            PUBLISH=false
+          fi
+          echo "publish-sdk-libs=$PUBLISH" >> $GITHUB_OUTPUT
           echo "::endgroup::"          
 
-      # - name: Get PR Labels
-      #   id: get_pr_labels
-      #   uses: actions/github-script@v7
-      #   with:
-      #     script: |
-      #       const { owner, repo } = context.repo;
-      #       const pull_number = context.payload.pull_request.number;
-  
-      #       const { data: pullRequest } = await github.pulls.get({
-      #         owner: owner,
-      #         repo: repo,
-      #         pull_number: pull_number,
-      #       });
-  
-      #       console.log(pullRequest);
-
-      # - name: Evaluate PR Labels
-      #   id: evaluate_pr_labels
-      #   run: |
-      #     LABELS=${{ steps.get_pr_labels.outputs.labels }}
-      #     echo "PR Labels: $LABELS"
-      #     if [[ "$LABELS" == *"sdk-libs"* ]]; then
-      #       echo "Specific label found. Proceeding with publishing."
-      #       echo "publish=true" >> $GITHUB_ENV
-      #     else
-      #       echo "Specific label not found. Exiting."
-      #       echo "publish=false" >> $GITHUB_ENV            
+      - name: 'Publish SDK Libraries'
+        if: steps.get_pr_labels.outputs.publish-sdk-libs == 'true'
+        run: |
+          echo "::group::Publish SDK Libraries"
+          echo "Publishing SDK Libraries in the NPM Registry..."
+          echo "::endgroup::"
