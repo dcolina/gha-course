@@ -1,4 +1,4 @@
-name: 'on PR Merge to Main with Specific Label'
+name: 'PR closed'
 on:
   pull_request:
     types: [closed]
