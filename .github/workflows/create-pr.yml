@@ -49,10 +49,10 @@ jobs:
             sdk libs
             automated pr 
 
-      - name: 'Enable Pull Request Automerge'
-        if: steps.create-pull-request.outputs.pull-request-operation == 'created'
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
-          merge-method: squash          
+      # - name: 'Enable Pull Request Automerge'
+      #   if: steps.create-pull-request.outputs.pull-request-operation == 'created'
+      #   uses: peter-evans/enable-pull-request-automerge@v3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
+      #     merge-method: squash          
