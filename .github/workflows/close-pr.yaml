@@ -1,6 +1,8 @@
 name: PR Event
 on:
   pull_request:
+    branches:
+      - main
     # types: [opened, assigned, synchronize, reopened]
 
 jobs:
