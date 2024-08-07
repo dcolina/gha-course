@@ -36,6 +36,7 @@ jobs:
           # echo "auxiliary-branch=$AUXILIARY_BRANCH" >> "$GITHUB_OUTPUT"          
 
       - name: 'Create Pull Request'
+        id: create-pull-request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,5 +44,15 @@ jobs:
           base: main
           title: 'Auto-generated PR: Update configuration files'
           body: 'This PR was created automatically to update the configuration files.'
-          draft: false 
-          
+          draft: false
+          labels: |
+            sdk libs
+            automated pr 
+
+      - name: 'Enable Pull Request Automerge'
+        if: steps.create-pull-request.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
+          merge-method: squas          
