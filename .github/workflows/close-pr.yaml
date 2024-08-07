@@ -1,6 +1,7 @@
-name: 'PR closed'
+name: PR Event
 on:
   pull_request:
+    # types: [opened, assigned, synchronize, reopened]
 
 jobs:
   after-pr:
@@ -9,16 +10,29 @@ jobs:
       - name: 'Log GitHub context'
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "::group::Github Context"
-          echo "$GITHUB_CONTEXT"
-          echo "::endgroup::"
+
+
+# name: 'PR closed'
+# on:
+#   pull_request:
+
+# jobs:
+#   after-pr:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: 'Log GitHub context'
+#         env:
+#           GITHUB_CONTEXT: ${{ toJson(github) }}
+#         run: |
+#           echo "::group::Github Context"
+#           echo "$GITHUB_CONTEXT"
+#           echo "::endgroup::"
           
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#         with:
+#           ref: ${{ github.event.pull_request.head.ref }}
+#           token: ${{ secrets.GITHUB_TOKEN }}
           
       # - name: Get PR Labels
       #   id: get_pr_labels
