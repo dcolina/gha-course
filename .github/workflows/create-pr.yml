@@ -55,4 +55,4 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
-          merge-method: squas          
+          merge-method: squash          
