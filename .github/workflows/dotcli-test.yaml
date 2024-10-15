@@ -17,20 +17,14 @@ jobs:
 
       - name: Get dotCLI runner
         id: dotcli-runner
-        env:
-          DOT_CLI_JAR_DOWNLOAD_URL: ${{ vars.DOT_CLI_JAR_DOWNLOAD_URL }}
         run: |
           echo "::group::Get dotCLI runner"
-          if [ -z "$DOT_CLI_JAR_DOWNLOAD_URL" ]; then            
-            curl -o maven-metadata.xml "https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/maven-metadata.xml"
-            LATEST_VERSION=$(xmllint --xpath "string(//versioning/latest)" maven-metadata.xml)
-            URL="https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/${LATEST_VERSION}/dotcms-cli-${LATEST_VERSION}-runner.jar"
-            # MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is not set, fetching dotCLI runner from "$URL"
-          else           
-            URL="$DOT_CLI_JAR_DOWNLOAD_URL"
-            # MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is set, fetching dotCLI runner from $URL"
-          fi
-          echo "::notice::URL: $URL"
+       
+          curl -o maven-metadata.xml "https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/maven-metadata.xml"
+          LATEST_VERSION=$(xmllint --xpath "string(//versioning/latest)" maven-metadata.xml)
+          URL="https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/${LATEST_VERSION}/dotcms-cli-${LATEST_VERSION}-runner.jar"
+
+          echo "::notice::DOTCLI RUNNER: $URL"
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "::endgroup::"
 
@@ -47,7 +41,7 @@ jobs:
       # This is how we instruct the cli to create the workspace if it does not exist
       DOT_CREATE_WORKSPACE: ${{ vars.DOT_CREATE_WORKSPACE || 'true' }}
       # This is the CLI version to use, but we can always override this value
-      DOT_CLI_JAR_DOWNLOAD_URL: ${{ needs.dotcms-runner.outputs.url }}
+      DOT_CLI_JAR_DOWNLOAD_URL: ${{ vars.DOT_CLI_JAR_DOWNLOAD_URL || needs.dotcms-runner.outputs.url }}
       # In case we want to force the download of the CLI jar
       DOT_FORCE_DOWNLOAD: ${{ vars.DOT_FORCE_DOWNLOAD || 'false' }}
     steps:
