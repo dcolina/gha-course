@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
 
-  dotcms-cli:
+  dotcms-runner:
     runs-on: ubuntu-latest
     outputs:
       url: ${{ steps.dotcli-runner.outputs.url }}
@@ -35,7 +35,7 @@ jobs:
           echo "::endgroup::"
 
   sync-with-dotcms:
-    needs: dotcms-cli
+    needs: dotcms-runner
     runs-on: ubuntu-latest
     env:
       # Global environment expected by dotCMS CLI
