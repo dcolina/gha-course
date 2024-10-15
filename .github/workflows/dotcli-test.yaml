@@ -22,15 +22,15 @@ jobs:
         run: |
           echo "::group::Get dotCLI runner"
           if [ -z "$DOT_CLI_JAR_DOWNLOAD_URL" ]; then            
-            curl -o -s maven-metadata.xml "https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/maven-metadata.xml"
+            curl -o maven-metadata.xml "https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/maven-metadata.xml"
             LATEST_VERSION=$(xmllint --xpath "string(//versioning/latest)" maven-metadata.xml)
             URL="https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/${LATEST_VERSION}/dotcms-cli-${LATEST_VERSION}-runner.jar"
-            MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is not set, fetching dotCLI runner from "$URL"
+            # MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is not set, fetching dotCLI runner from "$URL"
           else           
             URL="$DOT_CLI_JAR_DOWNLOAD_URL"
-            MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is set, fetching dotCLI runner from $URL"
+            # MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is set, fetching dotCLI runner from $URL"
           fi
-          echo "$MESSAGE"
+          echo "::notice::URL: $URL"
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "::endgroup::"
 
