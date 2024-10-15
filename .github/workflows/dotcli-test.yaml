@@ -10,6 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Instalar xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils        
+
       - name: Get dotCLI latest version
         id: dotcli-latest-runner
         run: |
