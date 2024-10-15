@@ -10,18 +10,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Instalar xmllint
+      - name: Install xmllint
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils        
 
-      - name: Get dotCLI latest version
-        id: dotcli-latest-runner
+      - name: Get dotCLI runner
+        id: dotcli-runner
+        env:
+          DOT_CLI_JAR_DOWNLOAD_URL: ${{ vars.DOT_CLI_JAR_DOWNLOAD_URL }}
         run: |
-          curl -o maven-metadata.xml "https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/maven-metadata.xml"
-          LATEST_VERSION=$(xmllint --xpath "string(//versioning/latest)" maven-metadata.xml)
-          echo "The dotCMS CLI latest version is $LATEST_VERSION"
-          echo URL="https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/${LATEST_VERSION}/dotcms-cli-${LATEST_VERSION}-runner.jar"
+          echo "::group::Get dotCLI runner"
+          if [ -z "$DOT_CLI_JAR_DOWNLOAD_URL" ]; then
+            MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is not set, fetching dotCLI latest runner"
+            curl -o maven-metadata.xml "https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/maven-metadata.xml"
+            LATEST_VERSION=$(xmllint --xpath "string(//versioning/latest)" maven-metadata.xml)
+            URL="https://repo.dotcms.com/artifactory/libs-release-local/com/dotcms/dotcms-cli/${LATEST_VERSION}/dotcms-cli-${LATEST_VERSION}-runner.jar"
+          else
+            MESSAGE="var.DOT_CLI_JAR_DOWNLOAD_URL is set, fetching dotCLI runner from $DOT_CLI_JAR_DOWNLOAD_URL"
+            URL="$DOT_CLI_JAR_DOWNLOAD_URL"
+          fi
+          echo "$MESSAGE"
           echo "url=$URL" >> "$GITHUB_OUTPUT"
-
+          echo "::endgroup::"
+          
   sync-with-dotcms:
     needs: dotcms-cli
     runs-on: ubuntu-latest
@@ -35,7 +45,7 @@ jobs:
       # This is how we instruct the cli to create the workspace if it does not exist
       DOT_CREATE_WORKSPACE: ${{ vars.DOT_CREATE_WORKSPACE || 'true' }}
       # This is the CLI version to use, but we can always override this value
-      DOT_CLI_JAR_DOWNLOAD_URL: ${{ vars.DOT_CLI_JAR_DOWNLOAD_URL || needs.dotcli-latest-runner.outputs.url }}
+      DOT_CLI_JAR_DOWNLOAD_URL: ${{ needs.dotcli-runner.outputs.url }}
       # In case we want to force the download of the CLI jar
       DOT_FORCE_DOWNLOAD: ${{ vars.DOT_FORCE_DOWNLOAD || 'false' }}
     steps:
